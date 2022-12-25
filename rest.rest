@@ -1,0 +1,15 @@
+POST http://localhost:4000/add-product
+Content-Type: application/json
+
+{
+  "id": 6,
+  "title": "Grand Theft Auto V",
+  "image": "https://image.api.playstation.com/vulcan/ap/rnd/202202/2816/K6mmm89oNII1iI1aqaClO0wh.png",
+  "price": 14.99,
+  "genre": "Action",
+  "releaseDate": "2013",
+  "screenshots" : ["https://www.nme.com/wp-content/uploads/2022/02/Grand-Theft-Auto-V-Trevor.jpg", "https://gameroom.lt/1706/grand-theft-auto-v.jpg", "https://www.slantmagazine.com/wp-content/uploads/2015/06/grandtheftautov.jpg", "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/streams/2013/September/130916/4B9024235-gta5tease.jpg"],
+  "stars": "4.7"
+}
+###
+GET http://localhost:4000/products/4
