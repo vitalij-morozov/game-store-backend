@@ -1,4 +1,4 @@
-const userSchema = require('../schemas/userSchema');
+const userSchema = require('../schemas/UserSchema');
 const bcrypt = require('bcrypt');
 
 const registerUser = async (req, res) => {
