@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const registrationValidation = async (req, res, next) => {
   const { email } = req.body;
-
   const isTaken = await userSchema.findOne({ email: email });
 
   if (isTaken) {
@@ -13,15 +12,18 @@ const registrationValidation = async (req, res, next) => {
   const joiSchema = Joi.object({
     name: Joi.string().trim().min(3).max(35).required(),
     email: Joi.string().trim().email().required(),
-    password: Joi.string().trim().min(4).max(20).required(),
-    passwordtwo: Joi.any().valid(Joi.ref('password')).required(),
+    password1: Joi.string().trim().min(4).max(20).required(),
+    password2: Joi.any().valid(Joi.ref('password1')).required(),
     notes: Joi.array().required(),
+    lastName: Joi.string().trim(),
+    image: Joi.string().trim(),
   });
 
   try {
-    await joiSchema.vaidate(req.body, { abortEarly: false });
+    await joiSchema.validate(req.body, { abortEarly: false });
     next();
   } catch (error) {
+    console.log('error ===', error);
     res.status(400).json({ error: true, data: error.details });
   }
 };
@@ -29,7 +31,7 @@ const registrationValidation = async (req, res, next) => {
 const loginValidation = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await userSchema.findOne({ email });
+  const user = await userSchema.findOne({ email: email });
 
   const joiSchema = Joi.object({
     email: Joi.string().trim().required(),
@@ -44,6 +46,7 @@ const loginValidation = async (req, res, next) => {
     if (!passCompare) return res.status(400).json({ error: true, message: 'Incorrect password or username' });
     next();
   } catch (error) {
+    console.log('error ===', error);
     return res.status(400).json({ error: true, message: 'Field validation error', data: error.details });
   }
 };

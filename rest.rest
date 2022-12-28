@@ -12,4 +12,16 @@ Content-Type: application/json
   "stars": "4.7"
 }
 ###
-GET http://localhost:4000/products/4
+GET http://localhost:4000/products/1
+
+###
+POST http://localhost:4000/tp/register
+Content-Type: application/json
+
+{
+  "name": "John",
+  "email": "john@example.com",
+  "password1": "asdasd",
+  "password2": "asdasd",
+  "notes": [] 
+}

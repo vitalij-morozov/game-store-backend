@@ -7,6 +7,8 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   notes: { type: Array, required: true },
   secret: { type: String, required: true },
+  lastName: { type: String },
+  image: { type: String },
 });
 
 module.exports = mongoose.model('TaskPlannerUsers', userSchema);
