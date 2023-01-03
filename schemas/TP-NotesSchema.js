@@ -11,4 +11,4 @@ const notesSchema = new Schema({
   createdAt: { type: String, required: true },
 });
 
-module.exports = mongoose.model('TaskPlannerNotes', notesSchema);
+module.exports = mongoose.model('TaskPlannerNotes2', notesSchema);
