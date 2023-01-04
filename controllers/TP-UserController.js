@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
     image,
   };
   const newUser = new userSchema(userObject);
-
+  console.log('newUser ===', newUser);
   await newUser.save();
 
   if (!newUser) {
@@ -60,16 +60,12 @@ const updateUserInfo = async (req, res) => {
     const { secret } = req.params;
     const { name, email, lastName, image } = req.body;
 
-    // const emailTaken = await userSchema.findOne({ email: email});
-    // if (emailTaken) {
-    //   return res.status(400).json({error: true, data: {message: 'this email is already taken'}})
-    // }
     console.log('req.body ===', req.body);
     const user = await userSchema.findOneAndUpdate(
       { secret: secret },
-      { $set: { name: name, email: email, lastName: lastName, image: image } }
+      { $set: { name: name, email: email, lastName: lastName, image: image } },
+      { new: true }
     );
-    console.log('user ===', user);
     return res.status(201).json({ error: false, data: { user: user, message: 'User info updated successfully' } });
   } catch (error) {
     return res.status(400).json({ error: true, message: 'User update failed', data: error.details });
