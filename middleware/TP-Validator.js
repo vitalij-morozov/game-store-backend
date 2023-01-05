@@ -20,10 +20,14 @@ const registrationValidation = async (req, res, next) => {
   });
 
   try {
-    await joiSchema.validate(req.body, { abortEarly: false });
+    const valRes = await joiSchema.validate(req.body, { abortEarly: false });
+    if (valRes.error) {
+      return res
+        .status(400)
+        .json({ error: true, data: [{ message: 'Field Validation Error', errorData: valRes.error }] });
+    }
     next();
   } catch (error) {
-    console.log('error ===', error);
     res.status(400).json({ error: true, data: error.details });
   }
 };
@@ -39,11 +43,16 @@ const loginValidation = async (req, res, next) => {
   });
 
   try {
-    await joiSchema.validateAsync(req.body, { abortEarly: false });
+    const valRes = await joiSchema.validateAsync(req.body, { abortEarly: false });
 
     if (!user) return res.status(400).json({ error: true, data: [{ message: 'User not found' }] });
     const passCompare = await bcrypt.compare(password, user.password);
     if (!passCompare) return res.status(400).json({ error: true, message: 'Incorrect password or username' });
+    if (valRes.error) {
+      return res
+        .status(400)
+        .json({ error: true, data: [{ message: 'Field Validation Error', errorData: valRes.error }] });
+    }
     next();
   } catch (error) {
     console.log('error ===', error);

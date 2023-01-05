@@ -11,13 +11,7 @@ const { addNote, getNotes, removeNote, updateNote } = require('../controllers/TP
 
 const { RRregistrationValidation, RRloginValidation } = require('../middleware/RR-Validator');
 
-const {
-  RRregisterUser,
-  RRloginUser,
-  RRgetUser,
-  RRupdateUserInfo,
-  RRremoveUserInfo,
-} = require('../controllers/RR-UserController');
+const { RRregisterUser, RRloginUser, RRupdateUserInfo, RRremoveUserInfo } = require('../controllers/RR-UserController');
 
 // TASK PLANNER ROUTES
 router.post('/tp/register', registrationValidation, registerUser);

@@ -15,9 +15,16 @@ const RRregistrationValidation = async (req, res, next) => {
     password1: Joi.string().trim().min(4).max(20).required(),
     password2: Joi.any().valid(Joi.ref('password1')).required(),
   });
-
+  console.log('req.body ===', req.body);
   try {
-    await joiSchema.validate(req.body, { abortEarly: false });
+    const valRes = await joiSchema.validate(req.body, { abortEarly: false });
+    console.log('valRes ===', valRes);
+    if (valRes.error) {
+      return res
+        .status(400)
+        .json({ error: true, data: [{ message: 'Field Validation Error', errorData: valRes.error }] });
+    }
+    console.log('valRes ===', valRes);
     next();
   } catch (error) {
     console.log('error ===', error);
@@ -36,10 +43,15 @@ const RRloginValidation = async (req, res, next) => {
   });
 
   try {
-    await joiSchema.validateAsync(req.body, { abortEarly: false });
+    const valRes = await joiSchema.validateAsync(req.body, { abortEarly: false });
     if (!user) return res.status(400).json({ error: true, data: [{ message: 'User not found' }] });
     const passCompare = await bcrypt.compare(password, user.password);
     if (!passCompare) return res.status(400).json({ error: true, message: 'Incorrect password or username' });
+    if (valRes.error) {
+      return res
+        .status(400)
+        .json({ error: true, data: [{ message: 'Field Validation Error', errorData: valRes.error }] });
+    }
     next();
   } catch (error) {
     console.log('error ===', error);

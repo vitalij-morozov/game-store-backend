@@ -15,7 +15,7 @@ const addNote = async (req, res) => {
 const getNotes = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { noteType, noteStatus, sort, page, search } = req.query;
+    const { noteType, noteStatus, sort, search } = req.query;
 
     let sorting;
     let type = 'all';
@@ -60,9 +60,8 @@ const getNotes = async (req, res) => {
         status: noteStatus,
         noteTitle: { $regex: searchParam },
       })
-      .sort(sorting)
-      .skip((page - 1) * 10)
-      .limit(page * 10);
+      .sort(sorting);
+
     const amount = await notesSchema.find({ userId: userId });
     return res.json({ error: false, data: { notes, noteAmount: amount.length } });
   } catch (error) {
